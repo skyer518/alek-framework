@@ -5,17 +5,17 @@ package cn.com.u2be.framework;
  */
 public interface ConfigConstant {
 
-    String CONFIG_FILE = "alekMvc.properties";
+    String CONFIG_FILE = "mvc.properties";
 
-    String JDBC_DRIVER = "alekMvc.jdbc.driver";
-    String JDBC_URL = "alekMvc.jdbc.url";
-    String JDBC_USERNAME = "alekMvc.jdbc.username";
-    String JDBC_PASSWORD = "alekMvc.jdbc.password";
+    String JDBC_DRIVER = "mvc.jdbc.driver";
+    String JDBC_URL = "mvc.jdbc.url";
+    String JDBC_USERNAME = "mvc.jdbc.username";
+    String JDBC_PASSWORD = "mvc.jdbc.password";
 
-    String APP_BASE_PACKAGE = "alekMvc.app.base_package";
-    String APP_JSP_PATH = "alekMvc.app.jsp_path";
-    String APP_ASSET_PAHT = "alekMvc.app.asset_path";
-    String APP_UPLOAD_LIMIT = "alekMvc.app.upload_limit";
+    String APP_BASE_PACKAGE = "mvc.app.base_package";
+    String APP_JSP_PATH = "mvc.app.jsp_path";
+    String APP_ASSET_PAHT = "mvc.app.asset_path";
+    String APP_UPLOAD_LIMIT = "mvc.app.upload_limit";
 
 
 }
