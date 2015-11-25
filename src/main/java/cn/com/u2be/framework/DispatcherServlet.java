@@ -51,47 +51,53 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        // get 请求方法 and 请求路径
-        String requestMethod = request.getMethod().toLowerCase();
-        String requestPathInfo = request.getPathInfo();
+        ServletHelper.init(request, response);
+        try {
+            // get 请求方法 and 请求路径
+            String requestMethod = request.getMethod().toLowerCase();
+            String requestPathInfo = request.getPathInfo();
 
-        if (requestPathInfo.equals("/favicon.ico")) {
-            return;
+            if (requestPathInfo.equals("/favicon.ico")) {
+                return;
+            }
+            // get Action 处理器
+            Handler handler = ControllerHelper.getHandler(requestMethod, requestPathInfo);
+
+            if (handler != null) {
+                // get Controller类 及其 Bean实例
+                Class<?> controllerClass = handler.getControllerClass();
+                Object controllerBean = BeanHelper.getBean(controllerClass);
+                //创建请求参数 对象
+                Param param;
+                if (UploadHelper.isMultipart(request)) {
+                    param = UploadHelper.createParam(request);
+                } else {
+                    param = RequestHelper.createParam(request);
+                }
+
+                // invoke actionMethod
+                Object result;
+                Method actionMethod = handler.getActionMethod();
+
+                if (param.isEmpty()) {   // 有些地方是可以不用 携带参数的
+                    result = ReflectionUtil.invokeMethod(controllerBean, actionMethod);
+                } else {
+                    result = ReflectionUtil.invokeMethod(controllerBean, actionMethod, param);
+                }
+
+                // handle result
+                if (result instanceof View) {
+                    handleViewResult(request, response, (View) result);
+                } else if (result instanceof Data) {
+                    handleDataResult((Data) request, response);
+                }
+
+            }
+        } finally {
+            ServletHelper.destroy();
         }
-        // get Action 处理器
-        Handler handler = ControllerHelper.getHandler(requestMethod, requestPathInfo);
-
-        if (handler != null) {
-            // get Controller类 及其 Bean实例
-            Class<?> controllerClass = handler.getControllerClass();
-            Object controllerBean = BeanHelper.getBean(controllerClass);
-            //创建请求参数 对象
-            Param param;
-            if (UploadHelper.isMultipart(request)) {
-                param = UploadHelper.createParam(request);
-            } else {
-                param = RequestHelper.createParam(request);
-            }
-
-            // invoke actionMethod
-            Object result;
-            Method actionMethod = handler.getActionMethod();
-
-            if (param.isEmpty()) {   // 有些地方是可以不用 携带参数的
-                result = ReflectionUtil.invokeMethod(controllerBean, actionMethod);
-            } else {
-                result = ReflectionUtil.invokeMethod(controllerBean, actionMethod, param);
-            }
-
-            // handle result
-            if (result instanceof View) {
-                handleViewResult(request, response, (View) result);
-            } else if (result instanceof Data) {
-                handleDataResult((Data) request, response);
-            }
 
 
-        }
     }
 
     private void handleDataResult(Data request, HttpServletResponse response) throws IOException {
