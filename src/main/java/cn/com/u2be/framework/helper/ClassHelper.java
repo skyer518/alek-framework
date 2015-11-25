@@ -1,5 +1,6 @@
 package cn.com.u2be.framework.helper;
 
+import cn.com.u2be.framework.annotation.Bean;
 import cn.com.u2be.framework.annotation.Controller;
 import cn.com.u2be.framework.annotation.Service;
 import cn.com.u2be.framework.util.ClassUtil;
@@ -40,6 +41,14 @@ public final class ClassHelper {
     public static Set<Class<?>> getServiceClassSet() {
         return getClassSetByAnnotation(Service.class);
     }
+    /**
+     * 获取应用包名下的所有 Bean 类
+     *
+     * @return
+     */
+    public static Set<Class<?>> getBeanClassSet() {
+        return getClassSetByAnnotation(Bean.class);
+    }
 
     /**
      * 获取应用包名下的所有 Controller 类
@@ -51,7 +60,7 @@ public final class ClassHelper {
     }
 
     /**
-     * 获取应用包名下的所有 Bean 类 （Service,Controller）
+     * 获取应用包名下的所有 Bean 类 （Service,Controller,Bean）
      *
      * @return
      */
@@ -59,6 +68,7 @@ public final class ClassHelper {
         Set<Class<?>> beanClassSet = new HashSet<Class<?>>(0);
         beanClassSet.addAll(getServiceClassSet());
         beanClassSet.addAll(getControllerClassSet());
+        beanClassSet.addAll(getBeanClassSet());
         return beanClassSet;
     }
 

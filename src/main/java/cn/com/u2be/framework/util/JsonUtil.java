@@ -41,7 +41,7 @@ public final class JsonUtil {
     /**
      * ½« JSON ×ªÎª  POJO
      *
-     * @param obj
+     * @param json
      * @param <T>
      * @return
      */

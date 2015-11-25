@@ -69,7 +69,7 @@ public class PropsUtil {
      */
     public static String getString(Properties props, String key, String defaultValue) {
         String result = defaultValue;
-        if (props.contains(key)) {
+        if (props.containsKey(key)) {
             result = props.getProperty(key);
         }
         return result;
@@ -97,7 +97,7 @@ public class PropsUtil {
      */
     public static int getInt(Properties props, String key, int defaultValue) {
         int result = defaultValue;
-        if (props.contains(key)) {
+        if (props.containsKey(key)) {
             result = CastUtil.castInt(props.getProperty(key));
         }
         return result;
@@ -125,7 +125,7 @@ public class PropsUtil {
      */
     public static boolean getBoolean(Properties props, String key, boolean defaultValue) {
         boolean result = defaultValue;
-        if (props.contains(key)) {
+        if (props.containsKey(key)) {
             result = CastUtil.castBoolean(props.getProperty(key));
         }
         return result;

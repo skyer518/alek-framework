@@ -158,7 +158,7 @@ public class Param {
      * @return
      */
     public boolean isEmpty() {
-        return CollectionUtils.isNotEmpty(formParamList) && CollectionUtils.isNotEmpty(fileParamList);
+        return CollectionUtils.isEmpty(formParamList) && CollectionUtils.isEmpty(fileParamList);
     }
 
 
